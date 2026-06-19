@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -111,6 +112,52 @@ public class Main{
         else {
             System.out.println(sistemaBiblioteca.buscarCliente(cpfDoCliente).toString());
         }
+
+        sistemaBiblioteca.cadastrarLivro(titulo, ano, autor, preco, genero);
+        sistemaBiblioteca.cadastrarCliente(nomeDoCliente, cpfDoCliente, emailDoCliente);
+
+        System.out.println("Digite o ano do título do Livro que deseja procurar: ");
+        int anoDoTituloLivro = sc.nextInt();
+        List<Livro> listaDeLivrosPorAno = sistemaBiblioteca.buscarLivroPorAno(anoDoTituloLivro);
+        System.out.println(listaDeLivrosPorAno.toString());
+        sc.nextLine();
+
+
+        System.out.println("Procure o título de acordo com o gênero: " +
+                "\n 1 - ROMANCE \n 2 - TERROR \n 3 - POESIA \n 4 - DRAMA \n 5 - AVENTURA \n 6 - FANTASIA \n 7 - INFANTIL");
+
+        int opcaoTituloPorGenero = sc.nextInt();
+        Genero livroPorGenero = null;
+
+        switch (opcaoTituloPorGenero){
+            case 1:
+                livroPorGenero = Genero.ROMANCE;
+                break;
+
+            case 2:
+                livroPorGenero = Genero.TERROR;
+                break;
+            case 3:
+                livroPorGenero = Genero.POESIA;
+                break;
+            case 4:
+                livroPorGenero = Genero.DRAMA;
+                break;
+            case 5:
+                livroPorGenero = Genero.AVENTURA;
+                break;
+
+            case 6:
+                livroPorGenero = Genero.FANTASIA;
+                break;
+
+            case 7:
+                livroPorGenero = Genero.INFANTIL;
+
+        }
+        List <Livro> listaTitulosPorGenero = sistemaBiblioteca.buscarLivrosPorGenero(livroPorGenero);
+        System.out.println(listaTitulosPorGenero.toString());
+
     }
 
 
