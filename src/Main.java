@@ -24,39 +24,7 @@ public class Main{
 
         int opcaoGenero = sc.nextInt();
         sc.nextLine();
-        Genero genero = null;
-
-        switch (opcaoGenero) {
-            case 1:
-                genero = Genero.ROMANCE;
-                break;
-            case 2:
-                genero = Genero.TERROR;
-                break;
-
-            case 3:
-                genero = Genero.POESIA;
-                break;
-
-            case 4:
-                genero = Genero.DRAMA;
-                break;
-
-            case 5:
-                genero = Genero.AVENTURA;
-                break;
-
-            case 6:
-                genero = Genero.FANTASIA;
-                break;
-
-            case 7:
-                genero = Genero.INFANTIL;
-                break;
-
-
-
-        }
+        Genero genero = sistemaBiblioteca.escolherGeneroLivro(opcaoGenero);
 
         sistemaBiblioteca.cadastrarLivro(titulo, ano, autor, preco, genero);
         System.out.println("Livro cadastrado com sucesso!");
@@ -89,10 +57,10 @@ public class Main{
         System.out.println(sistemaBiblioteca.buscarCliente(cpfDoClienteAluguel).toString());
 
 
-        System.out.println("CPF do cliente para devolução: ");
+        System.out.print("CPF do cliente para devolução do livro: ");
         int cpfClienteDevolucao = sc.nextInt();
         sc.nextLine();
-        System.out.println("Título do livro a ser devolvido: ");
+        System.out.print("Título do livro a ser devolvido: ");
         String tituloLivroDevolucao = sc.nextLine();
         sistemaBiblioteca.devolverLivro(cpfClienteDevolucao, tituloLivroDevolucao);
         System.out.println(sistemaBiblioteca.buscarLivro(tituloLivroDevolucao).toString());
@@ -127,36 +95,52 @@ public class Main{
                 "\n 1 - ROMANCE \n 2 - TERROR \n 3 - POESIA \n 4 - DRAMA \n 5 - AVENTURA \n 6 - FANTASIA \n 7 - INFANTIL");
 
         int opcaoTituloPorGenero = sc.nextInt();
-        Genero livroPorGenero = null;
+        sc.nextLine();
+        Genero livroPorGenero = sistemaBiblioteca.escolherGeneroLivro(opcaoTituloPorGenero);
 
-        switch (opcaoTituloPorGenero){
-            case 1:
-                livroPorGenero = Genero.ROMANCE;
-                break;
-
-            case 2:
-                livroPorGenero = Genero.TERROR;
-                break;
-            case 3:
-                livroPorGenero = Genero.POESIA;
-                break;
-            case 4:
-                livroPorGenero = Genero.DRAMA;
-                break;
-            case 5:
-                livroPorGenero = Genero.AVENTURA;
-                break;
-
-            case 6:
-                livroPorGenero = Genero.FANTASIA;
-                break;
-
-            case 7:
-                livroPorGenero = Genero.INFANTIL;
-
-        }
         List <Livro> listaTitulosPorGenero = sistemaBiblioteca.buscarLivrosPorGenero(livroPorGenero);
+
         System.out.println(listaTitulosPorGenero.toString());
+
+
+        System.out.print("Digite o título para a modificação de preço: ");
+        String tituloPrecoAtualizado = sc.nextLine();
+        System.out.print("Qual será o novo preço do Livro?");
+        double precoAtualizadoLivro = sc.nextDouble();
+        sistemaBiblioteca.atualizarPrecoDoLivro(tituloPrecoAtualizado, precoAtualizadoLivro);
+        System.out.println(sistemaBiblioteca.buscarLivro(tituloPrecoAtualizado).toString());
+
+
+        System.out.print("Cpf do cliente para a atualização do e-mail: ");
+        int cpfParaAlteracaoEmail = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Digite o novo E-mail: ");
+        String emailAlteracao = sc.nextLine();
+        sistemaBiblioteca.atualizarDadosCliente(cpfParaAlteracaoEmail, emailAlteracao);
+
+        System.out.println(sistemaBiblioteca.buscarCliente(cpfParaAlteracaoEmail).toString());
+
+
+        System.out.println();
+
+
+        System.out.print("Digite o título para modificar o gênero: ");
+        String tituloGeneroParaModificar = sc.nextLine();
+        System.out.println("Atualize o gênero do Livro: " +
+                "\n 1 - ROMANCE \n 2 - TERROR \n 3 - POESIA \n 4 - DRAMA \n 5 - AVENTURA \n 6 - FANTASIA \n 7 - INFANTIL");
+
+        int opcaoGeneroModificar = sc.nextInt();
+        Genero generoModificado = sistemaBiblioteca.escolherGeneroLivro(opcaoGeneroModificar);
+        sistemaBiblioteca.mudarGeneroDeLivro(generoModificado, tituloGeneroParaModificar);
+
+
+
+        System.out.println(sistemaBiblioteca.buscarLivro(tituloGeneroParaModificar).toString());
+
+
+
+
+
 
     }
 

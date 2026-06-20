@@ -138,4 +138,34 @@ public class SistemaBiblioteca {
 
 
     }
+
+    public Genero escolherGeneroLivro(int opcaoTituloPorGenero){
+
+        Genero livroPorGenero = null;
+            switch (opcaoTituloPorGenero) {
+                case 1:
+                    livroPorGenero = Genero.ROMANCE;
+                    break;
+                case 2:
+                    livroPorGenero = Genero.TERROR;
+                    break;
+                case 3:
+                    livroPorGenero = Genero.POESIA;
+                    break;
+                case 4:
+                    livroPorGenero = Genero.DRAMA;
+                    break;
+                case 5:
+                    livroPorGenero = Genero.AVENTURA;
+                    break;
+
+                case 6:
+                    livroPorGenero = Genero.FANTASIA;
+                    break;
+
+                case 7:
+                    livroPorGenero = Genero.INFANTIL;
+            }
+        return livroPorGenero;
+    }
 }
