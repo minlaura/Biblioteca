@@ -130,6 +130,7 @@ public class Main{
                 "\n 1 - ROMANCE \n 2 - TERROR \n 3 - POESIA \n 4 - DRAMA \n 5 - AVENTURA \n 6 - FANTASIA \n 7 - INFANTIL");
 
         int opcaoGeneroModificar = sc.nextInt();
+        sc.nextLine();
         Genero generoModificado = sistemaBiblioteca.escolherGeneroLivro(opcaoGeneroModificar);
         sistemaBiblioteca.mudarGeneroDeLivro(generoModificado, tituloGeneroParaModificar);
 
@@ -139,6 +140,11 @@ public class Main{
 
 
 
+        System.out.print("Digite o cpf para consultar fatura: ");
+        int cpfParaConsultar = sc.nextInt();
+        double faturaConsultaCliente = sistemaBiblioteca.verificarDividas(cpfParaConsultar);
+
+        System.out.println("O valor pendente para pagamento é: " + faturaConsultaCliente);
 
 
 
