@@ -5,16 +5,18 @@ public class Livro {
     private double preco;
     private boolean status;
     private Genero genero;
+    private int id;
 
     private Cliente clienteQueAlugou;
 
-    public Livro (String titulo, int ano, String autor, double preco, Genero genero){
+    public Livro (String titulo, int ano, String autor, double preco, Genero genero, int id){
         this.titulo = titulo;
         this.ano = ano;
         this.autor = autor;
         this.preco = preco;
         this.status = true;
         this.genero = genero;
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -23,6 +25,14 @@ public class Livro {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getAno() {
@@ -81,7 +91,8 @@ public class Livro {
                 ", autor='" + autor + '\'' +
                 ", preco=" + preco +
                 ", status=" + status +
-                ", genero=" + genero+"}";
+                ", genero=" + genero+
+                ", id = " + id +"}";
 //                ", clienteQueAlugou=" + clienteQueAlugou +
 
     }

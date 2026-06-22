@@ -6,12 +6,24 @@ public class SistemaBiblioteca {
     private List<Livro> listaDeLivros = new ArrayList<>();
     private List<Cliente> listaDeClientes = new ArrayList<>();
 
+    private int ultimoId = 0;
+
+    public int gerarId () {
+        int novoId = ultimoId + 1;
+        ultimoId = novoId;
+        return novoId;
+    }
 
     public void cadastrarLivro(String titulo, int ano, String autor, double preco, Genero genero) {
 
-        Livro livroCadastrado = new Livro(titulo, ano, autor, preco, genero);
+        int id = gerarId();
+        Livro livroCadastrado = new Livro(titulo, ano, autor, preco, genero, id);
+
         listaDeLivros.add(livroCadastrado);
     }
+
+
+
 
     public Livro buscarLivro(String titulo){
         Livro livroEncontrado = null;
@@ -165,7 +177,16 @@ public class SistemaBiblioteca {
 
                 case 7:
                     livroPorGenero = Genero.INFANTIL;
+                    break;
             }
         return livroPorGenero;
+
+
     }
+    public List<Livro> mostrarLivros() {
+    return listaDeLivros;
+    }
+
+
+
 }

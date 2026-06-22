@@ -139,15 +139,18 @@ public class Main{
         System.out.println(sistemaBiblioteca.buscarLivro(tituloGeneroParaModificar).toString());
 
 
-
         System.out.print("Digite o cpf para consultar fatura: ");
         int cpfParaConsultar = sc.nextInt();
+        sc.nextLine();
         double faturaConsultaCliente = sistemaBiblioteca.verificarDividas(cpfParaConsultar);
 
         System.out.println("O valor pendente para pagamento é: " + faturaConsultaCliente);
 
 
 
+
+        System.out.println("Livros Cadastrados: ");
+        System.out.println(sistemaBiblioteca.mostrarLivros().toString());
     }
 
 
