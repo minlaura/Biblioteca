@@ -51,11 +51,11 @@ public class Main{
         int cpfDoClienteAluguel = sc.nextInt();
         sc.nextLine();
 
-        sistemaBiblioteca.alugarLivro(livroAAlugar,cpfDoClienteAluguel);
-
-        System.out.println(sistemaBiblioteca.buscarLivro(livroAAlugar).toString());
-        System.out.println(sistemaBiblioteca.buscarCliente(cpfDoClienteAluguel).toString());
-
+       boolean aluguelAprovado = sistemaBiblioteca.alugarLivro(livroAAlugar, cpfDoClienteAluguel);
+        if (aluguelAprovado){
+            System.out.println(sistemaBiblioteca.buscarLivro(livroAAlugar).toString());
+            System.out.println(sistemaBiblioteca.buscarCliente(cpfDoClienteAluguel).toString());
+        }
 
         System.out.print("CPF do cliente para devolução do livro: ");
         int cpfClienteDevolucao = sc.nextInt();

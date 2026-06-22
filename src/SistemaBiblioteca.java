@@ -89,16 +89,24 @@ public class SistemaBiblioteca {
     }
 
 
-    public void alugarLivro (String titulo, int cpf){
+    public boolean alugarLivro (String titulo, int cpf){
 
         Livro livroAlugado = buscarLivro(titulo);
         Cliente  clienteAluguel = buscarCliente(cpf);
+
+        if (livroAlugado != null && livroAlugado.isStatus()){
 
         livroAlugado.setStatus(false);
         livroAlugado.setClienteQueAlugou(clienteAluguel);
 
         clienteAluguel.getLivrosAlugados().add(livroAlugado);
         clienteAluguel.setValorAPagar(livroAlugado.getPreco() + clienteAluguel.getValorAPagar());
+
+        return true;
+     } else {
+            System.out.println("Livro não encontrado ou não está disponível!");
+            return false;
+        }
     }
 
     public void devolverLivro (int cpf, String titulo){
