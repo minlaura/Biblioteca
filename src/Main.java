@@ -51,34 +51,42 @@ public class Main{
         int cpfDoClienteAluguel = sc.nextInt();
         sc.nextLine();
 
-       boolean aluguelAprovado = sistemaBiblioteca.alugarLivro(livroAAlugar, cpfDoClienteAluguel);
+        boolean aluguelAprovado = sistemaBiblioteca.alugarLivro(livroAAlugar, cpfDoClienteAluguel);
         if (aluguelAprovado){
             System.out.println(sistemaBiblioteca.buscarLivro(livroAAlugar).toString());
             System.out.println(sistemaBiblioteca.buscarCliente(cpfDoClienteAluguel).toString());
         }
+
+
 
         System.out.print("CPF do cliente para devolução do livro: ");
         int cpfClienteDevolucao = sc.nextInt();
         sc.nextLine();
         System.out.print("Título do livro a ser devolvido: ");
         String tituloLivroDevolucao = sc.nextLine();
-        sistemaBiblioteca.devolverLivro(cpfClienteDevolucao, tituloLivroDevolucao);
-        System.out.println(sistemaBiblioteca.buscarLivro(tituloLivroDevolucao).toString());
-        System.out.println(sistemaBiblioteca.buscarCliente(cpfClienteDevolucao).toString());
+        boolean livroDevolvidoStatus = sistemaBiblioteca.devolverLivro(cpfClienteDevolucao, tituloLivroDevolucao);
+        if (livroDevolvidoStatus){
+            System.out.println(sistemaBiblioteca.buscarLivro(tituloLivroDevolucao).toString());
+            System.out.println(sistemaBiblioteca.buscarCliente(cpfClienteDevolucao).toString());
 
-
-        sistemaBiblioteca.removerCliente(cpfDoCliente);
-        sistemaBiblioteca.removerLivro(titulo);
-        if (sistemaBiblioteca.buscarLivro(titulo) == null){
-            System.out.println("Livro removido com sucesso! =)");
-        } else{
-            System.out.println(sistemaBiblioteca.buscarLivro(titulo).toString());
-        }
-        if (sistemaBiblioteca.buscarCliente(cpfDoCliente) == null){
-            System.out.println("Cliente removido com sucesso!");
         }
         else {
-            System.out.println(sistemaBiblioteca.buscarCliente(cpfDoCliente).toString());
+            System.out.println("Cliente ou título não encontrados! Devolução não realizada.");
+        }
+
+
+        boolean clienteRemovidoStatus = sistemaBiblioteca.removerCliente(cpfDoCliente);
+        boolean livroRemovidoStatus =  sistemaBiblioteca.removerLivro(titulo);
+        if (clienteRemovidoStatus){
+            System.out.println("Cliente removido com sucesso! =)");
+        } else{
+            System.out.println("Não foi possível remover: Cliente não encontrado.");
+        }
+
+        if (livroRemovidoStatus) {
+            System.out.println("Livro removido com sucesso! =)");
+        } else {
+            System.out.println("Não foi possível remover: Livro não encontrado.");
         }
 
         sistemaBiblioteca.cadastrarLivro(titulo, ano, autor, preco, genero);

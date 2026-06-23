@@ -35,13 +35,21 @@ public class SistemaBiblioteca {
         return livroEncontrado;
     }
     public void atualizarPrecoDoLivro (String titulo, double preco){
-      Livro livroAAtualizar = buscarLivro(titulo);
-      livroAAtualizar.setPreco(preco);
+        Livro livroAAtualizar = buscarLivro(titulo);
+        livroAAtualizar.setPreco(preco);
     }
 
-    public void removerLivro (String titulo){
+    public boolean removerLivro (String titulo) {
         Livro livroARemover = buscarLivro(titulo);
-        listaDeLivros.remove(livroARemover);
+
+        // Proteção: só tenta remover se o livro realmente existir
+        if (livroARemover != null) {
+            listaDeLivros.remove(livroARemover);
+            return true; // <-- Sucesso: Avisa que removeu!
+        } else {
+            System.out.println("Nenhum livro encontrado!");
+            return false; // <-- Falha: Avisa que não encontrou nada!
+        }
     }
 
     public void cadastrarCliente (String nome, int cpf, String email) {
@@ -71,13 +79,14 @@ public class SistemaBiblioteca {
         }
     }
 
-    public void removerCliente (int cpf){
+    public boolean removerCliente (int cpf){
         Cliente clienteARemover = buscarCliente(cpf);
         if (clienteARemover != null){
             listaDeClientes.remove(clienteARemover);
+            return true;
         }
         else {
-            System.out.println("Cliente não encontrado no Sistema");
+           return false;
         }
 
     }
@@ -94,31 +103,36 @@ public class SistemaBiblioteca {
         Livro livroAlugado = buscarLivro(titulo);
         Cliente  clienteAluguel = buscarCliente(cpf);
 
-        if (livroAlugado != null && livroAlugado.isStatus()){
+        if (livroAlugado != null && livroAlugado.isStatus() && clienteAluguel != null){
 
-        livroAlugado.setStatus(false);
-        livroAlugado.setClienteQueAlugou(clienteAluguel);
+            livroAlugado.setStatus(false);
+            livroAlugado.setClienteQueAlugou(clienteAluguel);
 
-        clienteAluguel.getLivrosAlugados().add(livroAlugado);
-        clienteAluguel.setValorAPagar(livroAlugado.getPreco() + clienteAluguel.getValorAPagar());
+            clienteAluguel.getLivrosAlugados().add(livroAlugado);
+            clienteAluguel.setValorAPagar(livroAlugado.getPreco() + clienteAluguel.getValorAPagar());
 
-        return true;
-     } else {
+            return true;
+        } else {
             System.out.println("Livro não encontrado ou não está disponível!");
             return false;
         }
     }
 
-    public void devolverLivro (int cpf, String titulo){
+    public boolean devolverLivro (int cpf, String titulo){
 
         Cliente clienteAluguel = buscarCliente(cpf);
         Livro livroAlugado = buscarLivro(titulo);
 
-        clienteAluguel.getLivrosAlugados().remove(livroAlugado);
-        clienteAluguel.setValorAPagar(clienteAluguel.getValorAPagar() - livroAlugado.getPreco());
+        if (clienteAluguel != null && livroAlugado != null) {
+            clienteAluguel.getLivrosAlugados().remove(livroAlugado);
+            clienteAluguel.setValorAPagar(clienteAluguel.getValorAPagar() - livroAlugado.getPreco());
 
-        livroAlugado.setStatus(true);
-        livroAlugado.setClienteQueAlugou(null);
+            livroAlugado.setStatus(true);
+            livroAlugado.setClienteQueAlugou(null);
+            return true;
+        }else {
+            return false;
+        }
 
     }
 
@@ -162,37 +176,37 @@ public class SistemaBiblioteca {
     public Genero escolherGeneroLivro(int opcaoTituloPorGenero){
 
         Genero livroPorGenero = null;
-            switch (opcaoTituloPorGenero) {
-                case 1:
-                    livroPorGenero = Genero.ROMANCE;
-                    break;
-                case 2:
-                    livroPorGenero = Genero.TERROR;
-                    break;
-                case 3:
-                    livroPorGenero = Genero.POESIA;
-                    break;
-                case 4:
-                    livroPorGenero = Genero.DRAMA;
-                    break;
-                case 5:
-                    livroPorGenero = Genero.AVENTURA;
-                    break;
+        switch (opcaoTituloPorGenero) {
+            case 1:
+                livroPorGenero = Genero.ROMANCE;
+                break;
+            case 2:
+                livroPorGenero = Genero.TERROR;
+                break;
+            case 3:
+                livroPorGenero = Genero.POESIA;
+                break;
+            case 4:
+                livroPorGenero = Genero.DRAMA;
+                break;
+            case 5:
+                livroPorGenero = Genero.AVENTURA;
+                break;
 
-                case 6:
-                    livroPorGenero = Genero.FANTASIA;
-                    break;
+            case 6:
+                livroPorGenero = Genero.FANTASIA;
+                break;
 
-                case 7:
-                    livroPorGenero = Genero.INFANTIL;
-                    break;
-            }
+            case 7:
+                livroPorGenero = Genero.INFANTIL;
+                break;
+        }
         return livroPorGenero;
 
 
     }
     public List<Livro> mostrarLivros() {
-    return listaDeLivros;
+        return listaDeLivros;
     }
 
 
