@@ -42,13 +42,12 @@ public class SistemaBiblioteca {
     public boolean removerLivro (String titulo) {
         Livro livroARemover = buscarLivro(titulo);
 
-        // Proteção: só tenta remover se o livro realmente existir
+
         if (livroARemover != null) {
             listaDeLivros.remove(livroARemover);
-            return true; // <-- Sucesso: Avisa que removeu!
+            return true;
         } else {
-            System.out.println("Nenhum livro encontrado!");
-            return false; // <-- Falha: Avisa que não encontrou nada!
+            return false;
         }
     }
 
@@ -101,7 +100,7 @@ public class SistemaBiblioteca {
     public boolean alugarLivro (String titulo, int cpf){
 
         Livro livroAlugado = buscarLivro(titulo);
-        Cliente  clienteAluguel = buscarCliente(cpf);
+        Cliente clienteAluguel = buscarCliente(cpf);
 
         if (livroAlugado != null && livroAlugado.isStatus() && clienteAluguel != null){
 
@@ -207,6 +206,20 @@ public class SistemaBiblioteca {
     }
     public List<Livro> mostrarLivros() {
         return listaDeLivros;
+    }
+
+    public List <Livro> mostrarLivrosAlugados(int cpf){
+        Cliente cliente = buscarCliente(cpf);
+        List <Livro> livrosAlugados = cliente.getLivrosAlugados();
+
+        return livrosAlugados;
+    }
+
+    public Cliente mostrarClienteQueAlugou(String titulo){
+        Livro livro = buscarLivro(titulo);
+        Cliente cliente = livro.getClienteQueAlugou();
+        return cliente;
+
     }
 
 

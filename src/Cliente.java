@@ -61,7 +61,6 @@ public class Cliente {
                 "nome='" + nome + '\'' +
                 ", cpf=" + cpf +
                 ", email='" + email + '\'' +
-//                ", livrosAlugados=" + livrosAlugados +
                 ", valorAPagar=" + valorAPagar +
                 '}';
     }

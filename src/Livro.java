@@ -92,8 +92,7 @@ public class Livro {
                 ", preco=" + preco +
                 ", status=" + status +
                 ", genero=" + genero+
-                ", id = " + id +"}";
-//                ", clienteQueAlugou=" + clienteQueAlugou +
+                ", id = " + id +"}" ;
 
     }
 }
