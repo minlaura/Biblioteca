@@ -8,7 +8,7 @@ public class SistemaBiblioteca {
 
     private int ultimoId = 0;
 
-    public int gerarId () {
+    public int gerarId() {
         int novoId = ultimoId + 1;
         ultimoId = novoId;
         return novoId;
@@ -23,23 +23,27 @@ public class SistemaBiblioteca {
     }
 
 
-
-
-    public Livro buscarLivro(String titulo){
+    public Livro buscarLivro(String titulo) {
         Livro livroEncontrado = null;
-        for (Livro livro : listaDeLivros){
-            if (titulo.equals(livro.getTitulo())){
+        for (Livro livro : listaDeLivros) {
+            if (titulo.equals(livro.getTitulo())) {
                 livroEncontrado = livro;
             }
         }
         return livroEncontrado;
     }
-    public void atualizarPrecoDoLivro (String titulo, double preco){
+
+    public boolean atualizarPrecoDoLivro(String titulo, double preco) {
         Livro livroAAtualizar = buscarLivro(titulo);
+        if (livroAAtualizar != null){
         livroAAtualizar.setPreco(preco);
+        return true;
+        }
+        return false;
+
     }
 
-    public boolean removerLivro (String titulo) {
+    public boolean removerLivro(String titulo) {
         Livro livroARemover = buscarLivro(titulo);
 
 
@@ -51,17 +55,17 @@ public class SistemaBiblioteca {
         }
     }
 
-    public void cadastrarCliente (String nome, int cpf, String email) {
+    public void cadastrarCliente(String nome, int cpf, String email) {
         Cliente clienteCadastrado = new Cliente(nome, cpf, email);
         listaDeClientes.add(clienteCadastrado);
 
     }
 
-    public Cliente buscarCliente (int cpf){
+    public Cliente buscarCliente(int cpf) {
 
         Cliente clienteEncontrado = null;
 
-        for (Cliente cliente : listaDeClientes){
+        for (Cliente cliente : listaDeClientes) {
             if (cpf == cliente.getCpf()) {
                 clienteEncontrado = cliente;
             }
@@ -69,40 +73,33 @@ public class SistemaBiblioteca {
         return clienteEncontrado;
     }
 
-    public void atualizarDadosCliente (int cpf, String email){
-        Cliente atualizarCliente = buscarCliente(cpf);
-        if (atualizarCliente != null) {
-            atualizarCliente.setEmail(email);
-        } else {
-            System.out.println("CPF do cliente não encontrado no Sistema");
-        }
-    }
 
-    public boolean removerCliente (int cpf){
+    public boolean removerCliente(int cpf) {
         Cliente clienteARemover = buscarCliente(cpf);
-        if (clienteARemover != null){
+        if (clienteARemover != null) {
             listaDeClientes.remove(clienteARemover);
             return true;
-        }
-        else {
-           return false;
+        } else {
+            return false;
         }
 
     }
-    public double verificarDividas(int cpf){
+
+    public double verificarDividas(int cpf) {
         Cliente cliente = buscarCliente(cpf);
-        double valorAPagar = cliente.getValorAPagar();
-
-        return valorAPagar;
+        if (cliente != null) {
+            return  cliente.getValorAPagar();
+        }
+        return 0.0;
     }
 
 
-    public boolean alugarLivro (String titulo, int cpf){
+    public boolean alugarLivro(String titulo, int cpf) {
 
         Livro livroAlugado = buscarLivro(titulo);
         Cliente clienteAluguel = buscarCliente(cpf);
 
-        if (livroAlugado != null && livroAlugado.isStatus() && clienteAluguel != null){
+        if (livroAlugado != null && livroAlugado.isStatus() && clienteAluguel != null) {
 
             livroAlugado.setStatus(false);
             livroAlugado.setClienteQueAlugou(clienteAluguel);
@@ -117,7 +114,7 @@ public class SistemaBiblioteca {
         }
     }
 
-    public boolean devolverLivro (int cpf, String titulo){
+    public boolean devolverLivro(int cpf, String titulo) {
 
         Cliente clienteAluguel = buscarCliente(cpf);
         Livro livroAlugado = buscarLivro(titulo);
@@ -129,20 +126,20 @@ public class SistemaBiblioteca {
             livroAlugado.setStatus(true);
             livroAlugado.setClienteQueAlugou(null);
             return true;
-        }else {
+        } else {
             return false;
         }
 
     }
 
-    public List<Livro> buscarLivroPorAno (int ano) {
-        List <Livro> listaLivrosPorAno = new ArrayList<>();
-        for (Livro livro : listaDeLivros){
+    public List<Livro> buscarLivroPorAno(int ano) {
+        List<Livro> listaLivrosPorAno = new ArrayList<>();
+        for (Livro livro : listaDeLivros) {
             if (ano == livro.getAno()) {
                 listaLivrosPorAno.add(livro);
             }
         }
-        if (listaLivrosPorAno.isEmpty()){
+        if (listaLivrosPorAno.isEmpty()) {
             System.out.println("Nenhum livro encontrado.");
             return listaLivrosPorAno;
 
@@ -150,10 +147,11 @@ public class SistemaBiblioteca {
             return listaLivrosPorAno;
         }
     }
-    public List<Livro> buscarLivrosPorGenero (Genero genero) {
-        List <Livro> listaLivrosPorGenero = new ArrayList<>();
-        for (Livro livro : listaDeLivros){
-            if (genero.equals(livro.getGenero())){
+
+    public List<Livro> buscarLivrosPorGenero(Genero genero) {
+        List<Livro> listaLivrosPorGenero = new ArrayList<>();
+        for (Livro livro : listaDeLivros) {
+            if (genero.equals(livro.getGenero())) {
 
                 listaLivrosPorGenero.add(livro);
             }
@@ -163,16 +161,19 @@ public class SistemaBiblioteca {
 
 
     }
-    public void mudarGeneroDeLivro (Genero genero, String titulo){
+
+    public boolean mudarGeneroDeLivro(Genero genero, String titulo) {
         Livro livro = buscarLivro(titulo);
-        livro.setGenero(genero);
-
-
+        if (livro != null) {
+            livro.setGenero(genero);
+            return true;
+        }
+        return false;
 
 
     }
 
-    public Genero escolherGeneroLivro(int opcaoTituloPorGenero){
+    public Genero escolherGeneroLivro(int opcaoTituloPorGenero) {
 
         Genero livroPorGenero = null;
         switch (opcaoTituloPorGenero) {
@@ -204,24 +205,92 @@ public class SistemaBiblioteca {
 
 
     }
+
     public List<Livro> mostrarLivros() {
         return listaDeLivros;
     }
 
-    public List <Livro> mostrarLivrosAlugados(int cpf){
+    public List<Livro> mostrarLivrosAlugados(int cpf) {
         Cliente cliente = buscarCliente(cpf);
-        List <Livro> livrosAlugados = cliente.getLivrosAlugados();
+        List<Livro> livrosAlugados = cliente.getLivrosAlugados();
 
         return livrosAlugados;
     }
 
-    public Cliente mostrarClienteQueAlugou(String titulo){
+    public Cliente mostrarClienteQueAlugou(String titulo) {
         Livro livro = buscarLivro(titulo);
         Cliente cliente = livro.getClienteQueAlugou();
         return cliente;
 
     }
 
+    public Livro buscarLivroPorId(int id) {
+
+        for (Livro livroPorID : listaDeLivros) {
+            if (livroPorID.getId() == id) {
+                return livroPorID;
+            }
+        }
+        return null;
+    }
+
+    public void alterarNomeDoCliente(int cpf, String novoNome) {
+        Cliente nomeAAlterar = buscarCliente(cpf);
+        if (nomeAAlterar != null) {
+            nomeAAlterar.setNome(novoNome);
+        }
+
+    }
+
+    public void alterarTitulo(String titulo, String novoTitulo) {
+        Livro tituloAAlterar = buscarLivro(titulo);
+        if (tituloAAlterar != null) {
+            tituloAAlterar.setTitulo(novoTitulo);
+        }
+
+    }
+
+    public List<Livro> buscarLivrosPorAutor(String autor) {
+        List<Livro> listaLivrosPorAutor = new ArrayList<>();
+        for (Livro livro : listaDeLivros) {
+            if (livro.getAutor().equalsIgnoreCase(autor)) {
+                listaLivrosPorAutor.add(livro);
+
+            }
+        }
+        return listaLivrosPorAutor;
+    }
+
+    public boolean alterarEmail(int cpf, String novoEmail) {
+        Cliente clienteEmailAlterar = buscarCliente(cpf);
+        if (clienteEmailAlterar != null) {
+            clienteEmailAlterar.setEmail(novoEmail);
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean alterarAno(int id, int novoAno) {
+        Livro livroAnoAtualizar = buscarLivroPorId(id);
+        if (livroAnoAtualizar != null) {
+            livroAnoAtualizar.setAno(novoAno);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean esvaziarHistorico(int cpf) {
+        Cliente cliente = buscarCliente(cpf);
+        if (cliente != null) {
+            cliente.getLivrosAlugados().clear();
+
+            return true;
+        }
+        return false;
+    }
 
 
 }
+

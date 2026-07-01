@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
     static void main(String[] args) {
 
         SistemaBiblioteca sistemaBiblioteca = new SistemaBiblioteca();
@@ -39,7 +39,7 @@ public class Main{
         System.out.print("Digite o Email do cliente: ");
         String emailDoCliente = sc.nextLine();
 
-        sistemaBiblioteca.cadastrarCliente(nomeDoCliente,cpfDoCliente,emailDoCliente);
+        sistemaBiblioteca.cadastrarCliente(nomeDoCliente, cpfDoCliente, emailDoCliente);
 
         System.out.println("Cliente cadastrado com sucesso!");
         System.out.println(sistemaBiblioteca.buscarCliente(cpfDoCliente).toString());
@@ -52,11 +52,10 @@ public class Main{
         sc.nextLine();
 
         boolean aluguelAprovado = sistemaBiblioteca.alugarLivro(livroAAlugar, cpfDoClienteAluguel);
-        if (aluguelAprovado){
+        if (aluguelAprovado) {
             System.out.println(sistemaBiblioteca.buscarLivro(livroAAlugar).toString());
             System.out.println(sistemaBiblioteca.buscarCliente(cpfDoClienteAluguel).toString());
         }
-
 
 
         System.out.print("CPF do cliente para devolução do livro: ");
@@ -65,21 +64,20 @@ public class Main{
         System.out.print("Título do livro a ser devolvido: ");
         String tituloLivroDevolucao = sc.nextLine();
         boolean livroDevolvidoStatus = sistemaBiblioteca.devolverLivro(cpfClienteDevolucao, tituloLivroDevolucao);
-        if (livroDevolvidoStatus){
+        if (livroDevolvidoStatus) {
             System.out.println(sistemaBiblioteca.buscarLivro(tituloLivroDevolucao).toString());
             System.out.println(sistemaBiblioteca.buscarCliente(cpfClienteDevolucao).toString());
 
-        }
-        else {
+        } else {
             System.out.println("Cliente ou título não encontrados! Devolução não realizada.");
         }
 
 
         boolean clienteRemovidoStatus = sistemaBiblioteca.removerCliente(cpfDoCliente);
-        boolean livroRemovidoStatus =  sistemaBiblioteca.removerLivro(titulo);
-        if (clienteRemovidoStatus){
+        boolean livroRemovidoStatus = sistemaBiblioteca.removerLivro(titulo);
+        if (clienteRemovidoStatus) {
             System.out.println("Cliente removido com sucesso! =)");
-        } else{
+        } else {
             System.out.println("Não foi possível remover: Cliente não encontrado.");
         }
 
@@ -106,7 +104,7 @@ public class Main{
         sc.nextLine();
         Genero livroPorGenero = sistemaBiblioteca.escolherGeneroLivro(opcaoTituloPorGenero);
 
-        List <Livro> listaTitulosPorGenero = sistemaBiblioteca.buscarLivrosPorGenero(livroPorGenero);
+        List<Livro> listaTitulosPorGenero = sistemaBiblioteca.buscarLivrosPorGenero(livroPorGenero);
 
         System.out.println(listaTitulosPorGenero.toString());
 
@@ -115,8 +113,15 @@ public class Main{
         String tituloPrecoAtualizado = sc.nextLine();
         System.out.print("Qual será o novo preço do Livro?");
         double precoAtualizadoLivro = sc.nextDouble();
-        sistemaBiblioteca.atualizarPrecoDoLivro(tituloPrecoAtualizado, precoAtualizadoLivro);
-        System.out.println(sistemaBiblioteca.buscarLivro(tituloPrecoAtualizado).toString());
+        sc.nextLine();
+        boolean precoAtualizadoComSucesso = sistemaBiblioteca.atualizarPrecoDoLivro(tituloPrecoAtualizado, precoAtualizadoLivro);
+        if (precoAtualizadoComSucesso) {
+            System.out.println("O preço foi atualizado!");
+            System.out.println(sistemaBiblioteca.buscarLivro(tituloPrecoAtualizado).toString());
+        } else {
+            System.out.println("Erro!. Nenhum livro encontrado.");
+        }
+
 
 
         System.out.print("Cpf do cliente para a atualização do e-mail: ");
@@ -124,9 +129,14 @@ public class Main{
         sc.nextLine();
         System.out.print("Digite o novo E-mail: ");
         String emailAlteracao = sc.nextLine();
-        sistemaBiblioteca.atualizarDadosCliente(cpfParaAlteracaoEmail, emailAlteracao);
+        boolean emailAlterado = sistemaBiblioteca.alterarEmail(cpfParaAlteracaoEmail, emailAlteracao);
+        if (emailAlterado) {
+            System.out.println("Email atualizado com sucesso!");
+            System.out.println(sistemaBiblioteca.buscarCliente(cpfParaAlteracaoEmail).toString());
 
-        System.out.println(sistemaBiblioteca.buscarCliente(cpfParaAlteracaoEmail).toString());
+        } else {
+            System.out.println("Não foi possível alterar o e-mail.");
+        }
 
 
         System.out.println();
@@ -139,12 +149,15 @@ public class Main{
 
         int opcaoGeneroModificar = sc.nextInt();
         sc.nextLine();
+
         Genero generoModificado = sistemaBiblioteca.escolherGeneroLivro(opcaoGeneroModificar);
-        sistemaBiblioteca.mudarGeneroDeLivro(generoModificado, tituloGeneroParaModificar);
-
-
-
-        System.out.println(sistemaBiblioteca.buscarLivro(tituloGeneroParaModificar).toString());
+        boolean modificadoComSucesso = sistemaBiblioteca.mudarGeneroDeLivro(generoModificado, tituloGeneroParaModificar);
+        if (modificadoComSucesso) {
+            System.out.println("Gênero alterado com sucesso!");
+            System.out.println(sistemaBiblioteca.buscarLivro(tituloGeneroParaModificar));
+        } else {
+            System.out.println("Erro! O livro '" + tituloGeneroParaModificar + "' não foi encontrado.");
+        }
 
 
         System.out.print("Digite o cpf para consultar fatura: ");
@@ -155,10 +168,47 @@ public class Main{
         System.out.println("O valor pendente para pagamento é: " + faturaConsultaCliente);
 
 
-
-
         System.out.println("Livros Cadastrados: ");
         System.out.println(sistemaBiblioteca.mostrarLivros().toString());
+
+
+        System.out.println("Digite o autor que deseja pesquisar: ");
+        String autorPesquisado = sc.nextLine();
+        List<Livro> livrosEncontradosPorAutor = sistemaBiblioteca.buscarLivrosPorAutor(autorPesquisado);
+        if (!livrosEncontradosPorAutor.isEmpty()) {
+            System.out.println(livrosEncontradosPorAutor.toString());
+        } else {
+            System.out.println("Nenhum livro cadastrado para este autor.");
+        }
+
+
+        System.out.println("ID do livro que deseja buscar: ");
+        int idDoLivro = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Defina o ano para a alteração: ");
+        int anoAlteracao = sc.nextInt();
+        sc.nextLine();
+
+        boolean anoAlterado = sistemaBiblioteca.alterarAno(idDoLivro, anoAlteracao);
+
+        if (anoAlterado) {
+            System.out.println("Ano do Livro alterado com sucesso.");
+            System.out.println(sistemaBiblioteca.buscarLivroPorId(idDoLivro).toString());
+
+        } else {
+            System.out.println("Erro! Livro com o ID informado não encontrado!");
+        }
+
+        System.out.println("CPF do cliente: ");
+        int cpfHistoricoCliente = sc.nextInt();
+        boolean historicoApagado = sistemaBiblioteca.esvaziarHistorico(cpfHistoricoCliente);
+        if (historicoApagado) {
+            System.out.println(sistemaBiblioteca.buscarCliente(cpfHistoricoCliente).toString());
+        } else {
+            System.out.println("Erro! Cpf não encontrado!");
+        }
+
+
     }
 
 
